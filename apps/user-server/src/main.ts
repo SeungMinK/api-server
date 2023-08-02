@@ -4,6 +4,7 @@ import 'reflect-metadata'
 
 async function bootstrap() {
   const app = await NestFactory.create(UserServerModule)
+  console.log('USER SERVER START')
   await app.listen(3000)
 }
 
