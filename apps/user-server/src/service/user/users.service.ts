@@ -6,9 +6,17 @@ import { FindOneUserResponseDto } from '../../dto/find-one-user-response.dto'
 import { UpdateUserResponseDto } from '../../dto/update-user-response.dto'
 import { RemoveUserResponseDto } from '../../dto/remove-user-response.dto'
 import { UpdateUserRequestDto } from '../../dto/update-user-request.dto'
+import { InjectDataSource, InjectRepository } from '@nestjs/typeorm'
+import { DataSource, Repository } from 'typeorm'
+import { UserEntity } from '../../entities/user.entity'
 
 @Injectable()
 export class UsersService {
+  constructor(
+    @InjectDataSource() private connection: DataSource,
+    @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
+  ) {}
+
   async createUser(request: CreateUserRequestDto): Promise<CreateUserResponseDto> {
     return 'This action adds a new user'
   }
