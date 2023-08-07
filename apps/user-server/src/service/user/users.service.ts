@@ -18,22 +18,56 @@ export class UsersService {
   ) {}
 
   async createUser(request: CreateUserRequestDto): Promise<CreateUserResponseDto> {
-    return 'This action adds a new user'
+    const creatableUserEntity = await this.userRepository.create(request)
+
+    const createdUserEntity = await this.userRepository.save(creatableUserEntity)
+
+    return createdUserEntity
   }
 
   async findUsers(): Promise<FindUsersResponseDto> {
-    return `This action returns all users`
+    const existUserEntity = await this.userRepository.find()
+    if (!existUserEntity) {
+      /**Not Found Error*/
+      return
+    }
+
+    return existUserEntity
   }
 
   async findOneUser(id: number): Promise<FindOneUserResponseDto> {
-    return `This action returns a #${id} user`
+    const existUsersEntity = await this.userRepository.findOne({ where: { id: id } })
+    if (!existUsersEntity) {
+      /**Not Found Error*/
+      return
+    }
+
+    return existUsersEntity
   }
 
   async updateUser(id: number, request: UpdateUserRequestDto): Promise<UpdateUserResponseDto> {
-    return `This action updates a #${id} user`
+    const existUsersEntity = await this.userRepository.findOne({ where: { id: id } })
+    if (!existUsersEntity) {
+      /**Not Found Error*/
+      return
+    }
+
+    const updatableUserEntity = this.userRepository.merge(existUsersEntity, this.userRepository.create(request))
+
+    const updatedUserEntity = await this.userRepository.save(updatableUserEntity)
+
+    return updatedUserEntity
   }
 
   async removeUser(id: number): Promise<RemoveUserResponseDto> {
-    return `This action removes a #${id} user`
+    const existUsersEntity = await this.userRepository.findOne({ where: { id: id } })
+    if (!existUsersEntity) {
+      /**Not Found Error*/
+      return
+    }
+
+    const removedUserEntity = await this.userRepository.softRemove(existUsersEntity)
+
+    return removedUserEntity
   }
 }
