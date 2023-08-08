@@ -10,7 +10,7 @@ async function bootstrap() {
     .setTitle('User server Swagger')
     .setDescription('User server API Description')
     .setVersion('1.0')
-    .addTag('cats')
+    .addTag('APIS')
     .build()
   const document = SwaggerModule.createDocument(app, config)
   SwaggerModule.setup('api', app, document)
