@@ -2,6 +2,7 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Entity,
   Index,
   JoinTable,
   ManyToMany,
@@ -12,6 +13,7 @@ import {
 import { RoleEntity } from './role.entity'
 import { ProviderEntity } from './provider.entity'
 
+@Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint', unsigned: true })
   id: number
