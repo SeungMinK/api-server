@@ -9,16 +9,16 @@ import { UpdateUserRequestDto } from '../../dto/update-user-request.dto'
 import { UpdateUserResponseDto } from '../../dto/update-user-response.dto'
 import { RemoveUserResponseDto } from '../../dto/remove-user-response.dto'
 
-@Controller('users')
+@Controller('')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post()
+  @Post('/users')
   async createUser(@Payload() createUserDto: CreateUserRequestDto): Promise<CreateUserResponseDto> {
     return await this.usersService.createUser(createUserDto)
   }
 
-  @Get()
+  @Get('/users')
   async findUsers(): Promise<FindUsersResponseDto> {
     return await this.usersService.findUsers()
   }
