@@ -8,12 +8,14 @@ import { FindOneUserResponseDto } from '../../dto/find-one-user-response.dto'
 import { UpdateUserRequestDto } from '../../dto/update-user-request.dto'
 import { UpdateUserResponseDto } from '../../dto/update-user-response.dto'
 import { RemoveUserResponseDto } from '../../dto/remove-user-response.dto'
+import { ApiResponse } from '@nestjs/swagger'
 
 @Controller('')
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Post('/users')
+  @ApiResponse({ type: CreateUserResponseDto })
   async createUser(@Payload() createUserDto: CreateUserRequestDto): Promise<CreateUserResponseDto> {
     return await this.usersService.createUser(createUserDto)
   }
