@@ -23,8 +23,8 @@ import { ProviderEntity } from './entities/provider.entity'
         username: configService.get('database.user'),
         password: configService.get('database.password'),
         database: configService.get('database.name'),
-        entities: [UserEntity, RoleEntity, ProviderEntity],
         timezone: configService.get('database.timezone'),
+        entities: [UserEntity, RoleEntity, ProviderEntity],
         synchronize: true, // TODO 마이그레이션 기능 추가 되면 false 로 변경
         logging: true,
       }),
