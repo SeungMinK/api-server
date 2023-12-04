@@ -3,7 +3,7 @@ version: "3"
 services:
   mysql:
     image: mysql:8.0
-    container_name: user-mysql
+    container_name: mysql-db
     restart: always
     ports:
       - 3306:3306
@@ -13,7 +13,7 @@ services:
 
   redis:
     image: redis:latest
-    container_name: user-redis
+    container_name: redis
     restart: always
     ports:
       - 6379:6379
