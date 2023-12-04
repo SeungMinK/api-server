@@ -9,23 +9,42 @@ import { UpdateUserRequestDto } from '../../dto/update-user-request.dto'
 import { InjectDataSource, InjectRepository } from '@nestjs/typeorm'
 import { DataSource, Repository } from 'typeorm'
 import { UserEntity } from '../../entities/user.entity'
+import { RoleEntity } from '../../entities/role.entity'
+import { ProviderEntity } from '../../entities/provider.entity'
 
 @Injectable()
 export class UsersService {
   constructor(
     @InjectDataSource() private connection: DataSource,
     @InjectRepository(UserEntity) private userRepository: Repository<UserEntity>,
+    @InjectRepository(RoleEntity) private roleEntity: Repository<RoleEntity>,
+    @InjectRepository(ProviderEntity) private providerEntity: Repository<ProviderEntity>,
   ) {}
 
   async createUser(request: CreateUserRequestDto): Promise<CreateUserResponseDto> {
-    const creatableUserEntity = await this.userRepository.create(request)
+    const creatableRoleEntity = this.roleEntity.create({ code: request.role.code })
+    const creatableProviderEntity = this.providerEntity.create({ code: request.provider.code })
+
+    const creatableUserEntity = this.userRepository.create()
+    creatableUserEntity.role = [creatableRoleEntity]
+    creatableUserEntity.provider = creatableProviderEntity
+
+    /** TODO
+     *  PassWord 암호화
+     *  이메일 인증 Topic 생성
+     *  이메일 인증 완료시 verify column update
+     *  fireBase Project 에 User 등록
+     * */
 
     const createdUserEntity = await this.userRepository.save(creatableUserEntity)
 
     return createdUserEntity
   }
 
-  async findUsers(): Promise<FindUsersResponseDto> {
+  /** TODO
+   *  findMany ResponseType 정의
+   * */
+  async findUsers(): Promise<any> {
     const existUserEntity = await this.userRepository.find()
     if (!existUserEntity) {
       /**Not Found Error*/
