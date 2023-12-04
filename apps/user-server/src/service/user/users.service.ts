@@ -22,12 +22,16 @@ export class UsersService {
   ) {}
 
   async createUser(request: CreateUserRequestDto): Promise<CreateUserResponseDto> {
+    console.log(request)
+
     const creatableRoleEntity = this.roleEntity.create({ code: request.role.code })
     const creatableProviderEntity = this.providerEntity.create({ code: request.provider.code })
 
-    const creatableUserEntity = this.userRepository.create()
-    creatableUserEntity.role = [creatableRoleEntity]
-    creatableUserEntity.provider = creatableProviderEntity
+    const creatableUserEntity = this.userRepository.create({
+      ...request,
+      role: [creatableRoleEntity],
+      provider: creatableProviderEntity,
+    })
 
     /** TODO
      *  PassWord 암호화

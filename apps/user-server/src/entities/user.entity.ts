@@ -2,7 +2,9 @@ import {
   Column,
   CreateDateColumn,
   DeleteDateColumn,
+  Entity,
   Index,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -12,6 +14,7 @@ import {
 import { RoleEntity } from './role.entity'
 import { ProviderEntity } from './provider.entity'
 
+@Entity('users')
 export class UserEntity {
   @PrimaryGeneratedColumn('increment', { type: 'bigint', unsigned: true })
   id: number
@@ -49,6 +52,7 @@ export class UserEntity {
   })
   role: RoleEntity[]
 
-  @ManyToOne(() => ProviderEntity, (provider) => provider.user)
+  @ManyToOne(() => ProviderEntity, (provider) => provider.code)
+  @JoinColumn()
   provider: ProviderEntity
 }
