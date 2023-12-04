@@ -4,6 +4,7 @@ import {
   DeleteDateColumn,
   Entity,
   Index,
+  JoinColumn,
   JoinTable,
   ManyToMany,
   ManyToOne,
@@ -51,6 +52,7 @@ export class UserEntity {
   })
   role: RoleEntity[]
 
-  @ManyToOne(() => ProviderEntity, (provider) => provider.user)
+  @ManyToOne(() => ProviderEntity, (provider) => provider.code)
+  @JoinColumn()
   provider: ProviderEntity
 }
